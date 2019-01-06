@@ -27,7 +27,7 @@ services:
       mode: global
       placement:
         constraints:
-          - node.hostname == shed
+          - node.hostname == radio
       restart_policy:
         condition: always
         delay: 5s
@@ -58,7 +58,7 @@ services:
       restart_policy:
         condition: always
         delay: 5s
-  
+
   # planefinder ###############################################################
   planefinder:
     image: ${DOCKER_USERNAME}/docker-ads-b-planefinder:${TAG:-latest}
@@ -202,7 +202,7 @@ services:
         - ${DOCKER_USERNAME}/docker-ads-b-virtualradar:${TAG:-latest}
       args:
         VIRTUALRADAR_HASH: 6a8626cdf82b067318aadb75cee5d4428faed28626e7f49ae77dc9f746abb3fc
-        VIRTUALRADAR_WEBADMINPLUGIN_HASH: affa6a92d0454109f5d39d32888a208dee547fb30871719f5ba5ceca2bedf215  
+        VIRTUALRADAR_WEBADMINPLUGIN_HASH: affa6a92d0454109f5d39d32888a208dee547fb30871719f5ba5ceca2bedf215
     ports:
       - "0.0.0.0:8080:8080/tcp"
     depends_on:
