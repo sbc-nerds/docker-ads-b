@@ -42,7 +42,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   
   # Pull images to help with cache (allow failure as tag may not exist)
-  - docker pull "thebiggerguy/docker-ads-b-${SUB_IMAGE}:${TRAVIS_BRANCH}" || true
+  - docker pull "${DOCKER_USERNAME}/docker-ads-b-${SUB_IMAGE}:${TRAVIS_BRANCH}" || true
   
   # setup QEMU
   - docker run --rm --privileged multiarch/qemu-user-static:register
