@@ -18,6 +18,7 @@ FROM base
 COPY --from=builder /usr/local/bin/mlat-client /usr/local/bin/mlat-client
 COPY mlat-client-runner.sh /usr/bin/mlat-client-runner
 
+ENV SHIV_ROOT=/tmp
 EXPOSE 30104/tcp
 ENTRYPOINT ["mlat-client-runner"]
 
