@@ -17,7 +17,7 @@ RUN shiv -c mlat-client -o /usr/local/bin/mlat-client /mlat-client.tar.gz
 FROM base
 COPY --from=builder /usr/local/bin/mlat-client /usr/local/bin/mlat-client
 COPY mlat-client-runner.sh /usr/bin/mlat-client-runner
-RUN mkdir -p /root/.shiv
+
 EXPOSE 30104/tcp
 ENTRYPOINT ["mlat-client-runner"]
 
