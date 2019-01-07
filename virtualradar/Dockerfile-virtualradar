@@ -66,11 +66,12 @@ FROM base
 
 COPY --from=builder /vrs /opt/vrs
 
+# Create a symbolic link from VRS default data location to config volume
+RUN mkdir -p /config /root/.local/share && \
+    ln -sf /config /root/.local/share/VirtualRadar
+
 COPY InstallerConfiguration.xml /root/.local/share/VirtualRadar/InstallerConfiguration.xml
 COPY vrs-runner.sh /usr/local/bin/vrs-runner
-
-RUN mkdir -p /config && \
-    ln -sf /config /root/.local/share/VirtualRadar
 
 VOLUME /config
 
