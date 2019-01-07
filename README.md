@@ -21,8 +21,8 @@ and local viewing via:
 # Status
 | Branch | Status |
 |--------|--------|
-| latest | [![Build Status](https://travis-ci.org/bradsjm/adsb.svg?branch=latest)](https://travis-ci.org/bradsjm/adsb) |
-| dev    | [![Build Status](https://travis-ci.org/bradsjm/adsb.svg?branch=dev)](https://travis-ci.org/bradsjm/adsb) |
+| latest | [![Build Status](https://travis-ci.org/bradsjm/docker-ads-b.svg?branch=latest)](https://travis-ci.org/bradsjm/docker-ads-b) |
+| dev    | [![Build Status](https://travis-ci.org/bradsjm/docker-ads-b.svg?branch=dev)](https://travis-ci.org/bradsjm/docker-ads-b) |
 
 | dump1090 | adsbexchange | adsbexchange-mlat | adsbhub | flightaware | flightradar24 | openskynetwork | planefinder | virtualradar |
 |----------|--------------|-------------------|---------|-------------|---------------|----------------|-------------|--------------|
