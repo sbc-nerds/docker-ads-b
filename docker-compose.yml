@@ -1,5 +1,8 @@
 version: '3.6'
 
+volumes:
+  virtualradar-config:
+
 services:
   # dump1090 ##################################################################
   dump1090:
@@ -202,6 +205,8 @@ services:
       - dump1090
     env_file:
       - variables-virtualradar.env
+    volumes:
+      - virtualradar-config:/config
     deploy:
       restart_policy:
         condition: always

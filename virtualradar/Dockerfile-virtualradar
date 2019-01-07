@@ -1,8 +1,8 @@
-FROM multiarch/debian-debootstrap:armhf-buster-slim as base
+FROM multiarch/debian-debootstrap:armhf-stretch-slim as base
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-transport-https ca-certificates dirmngr gnupg && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+    apt-key adv --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | tee /etc/apt/sources.list.d/mono-official-stable.list && \
     apt-get remove --purge --autoremove -y gnupg dirmngr && \
     apt-get update && \
@@ -59,6 +59,8 @@ RUN mkdir vrs && cd vrs && \
     tar -xvf ../VirtualRadar.WebAdminPlugin.tar.gz --strip-components=0
 
 COPY VirtualRadar.exe.config /vrs/VirtualRadar.exe.config
+ADD ./logos.tar.gz /vrs/flags
+ADD ./sideviews.tar.gz /vrs/silhouettes
 
 FROM base
 
@@ -67,7 +69,12 @@ COPY --from=builder /vrs /opt/vrs
 COPY InstallerConfiguration.xml /root/.local/share/VirtualRadar/InstallerConfiguration.xml
 COPY vrs-runner.sh /usr/local/bin/vrs-runner
 
-EXPOSE 30053
+RUN mkdir -p /config && \
+    ln -sf /config /root/.local/share/VirtualRadar
+
+VOLUME /config
+
+EXPOSE 8080
 
 HEALTHCHECK --start-period=1m --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/VirtualRadar/ || exit 1
 
@@ -75,10 +82,10 @@ ENTRYPOINT ["vrs-runner"]
 
 # Metadata
 ARG VCS_REF="Unknown"
-LABEL maintainer="thebigguy.co.uk@gmail.com" \
+LABEL maintainer="jb@nrgup.net" \
       org.label-schema.name="Docker ADS-B - VirtualRadar" \
       org.label-schema.description="Docker container for ADS-B - This is the virtualradarserver.co.uk component" \
-      org.label-schema.url="https://github.com/TheBiggerGuy/docker-ads-b" \
+      org.label-schema.url="https://github.com/bradsjm/docker-ads-b" \
       org.label-schema.vcs-ref="${VCS_REF}" \
-      org.label-schema.vcs-url="https://github.com/TheBiggerGuy/docker-ads-b" \
+      org.label-schema.vcs-url="https://github.com/bradsjm/docker-ads-b" \
       org.label-schema.schema-version="1.0"

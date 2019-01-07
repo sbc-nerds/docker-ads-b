@@ -22,6 +22,9 @@ export MONO_PATH="/opt/vrs:${MONO_PATH:=}"
 export MONO_LOG_LEVEL='info'
 export MONO_LOG_MASK='dll,cfg'
 
-mono /opt/vrs/VirtualRadar.exe -nogui -"createAdmin:${VIRTUALRADAR_DEFAULT_ADMIN_USER}" -"password:${VIRTUALRADAR_DEFAULT_ADMIN_PASSWORD}"
-mono /opt/vrs/VirtualRadar.exe -nogui
+if [ ! -f "/root/.local/share/VirtualRadar/Configuration.xml" ]; then
+    echo "Creating local admin user ${VIRTUALRADAR_DEFAULT_ADMIN_USER}"
+    mono /opt/vrs/VirtualRadar.exe -nogui -"createAdmin:${VIRTUALRADAR_DEFAULT_ADMIN_USER}" -"password:${VIRTUALRADAR_DEFAULT_ADMIN_PASSWORD}"
+fi
 
+mono /opt/vrs/VirtualRadar.exe -nogui
