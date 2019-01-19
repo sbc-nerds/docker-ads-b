@@ -237,3 +237,23 @@ services:
         limits:
           cpus: '0.75'
           memory: 512M
+
+  # radarbox24 ##############################################################
+  radarbox24:
+    image: ${DOCKER_USERNAME}/adsb-radarbox24:${TAG:-latest}
+    build:
+      context: radarbox24
+      dockerfile: Dockerfile-radarbox24
+      cache_from:
+        - ${DOCKER_USERNAME}/adsb-radarbox24
+        - ${DOCKER_USERNAME}/adsb-radarbox24:${TAG:-latest}
+    depends_on:
+      - dump1090
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 512M

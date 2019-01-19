@@ -1,0 +1,26 @@
+FROM multiarch/debian-debootstrap:armhf-stretch-slim as base
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase dirmngr gnupg2 ca-certificates apt-transport-https && \
+    mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf && \
+    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 1D043681 && \
+    echo 'deb https://apt.rb24.com/ rpi-stable main' > /etc/apt/sources.list.d/rb24.list && \
+    apt-get update -y && \
+    apt-get install rbfeeder -y && \
+    apt-get purge -y dirmngr gnupg2 ca-certificates apt-transport-https && \
+    apt-get autoremove -y && \
+    rm -rf ~/.gnupg /var/lib/apt/lists/*
+
+EXPOSE 32088
+
+ENTRYPOINT ["/usr/bin/rbfeeder"]
+
+# Metadata
+ARG VCS_REF="Unknown"
+LABEL maintainer="jb@nrgup.net" \
+      org.label-schema.name="Docker ADS-B - Radarbox24" \
+      org.label-schema.description="Docker container for ADS-B - This is the RBFeeder component" \
+      org.label-schema.url="https://github.com/bradsjm/docker-ads-b" \
+      org.label-schema.vcs-ref="${VCS_REF}" \
+      org.label-schema.vcs-url="https://github.com/bradsjm/docker-ads-b" \
+      org.label-schema.schema-version="1.0"
