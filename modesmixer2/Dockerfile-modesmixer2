@@ -1,0 +1,23 @@
+FROM multiarch/debian-debootstrap:armhf-stretch-slim as base
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates && \
+    curl -SL "https://drive.google.com/uc?export=download&id=1lV_tUMVIj_CvM3kxdkk8PX2pLLAJskw_" | tar -xzC /usr/local/bin modesmixer2 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8080
+
+HEALTHCHECK --start-period=1m --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/ || exit 1
+
+ENTRYPOINT ["/usr/local/bin/modesmixer2","--web","8080"]
+
+# Metadata
+ARG VCS_REF="Unknown"
+LABEL maintainer="jb@nrgup.net" \
+      org.label-schema.name="Docker ADS-B - ModeSmixer2" \
+      org.label-schema.description="Docker container for ADS-B - This is the ModeSmixer2 component" \
+      org.label-schema.url="https://github.com/bradsjm/docker-ads-b" \
+      org.label-schema.vcs-ref="${VCS_REF}" \
+      org.label-schema.vcs-url="https://github.com/bradsjm/docker-ads-b" \
+      org.label-schema.schema-version="1.0"

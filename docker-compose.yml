@@ -215,3 +215,25 @@ services:
         limits:
           cpus: '0.75'
           memory: 512M
+
+  # modesmixer2 ##############################################################
+  modesmixer2:
+    image: ${DOCKER_USERNAME}/adsb-modesmixer2:${TAG:-latest}
+    build:
+      context: modesmixer2
+      dockerfile: Dockerfile-modesmixer2
+      cache_from:
+        - ${DOCKER_USERNAME}/adsb-modesmixer2
+        - ${DOCKER_USERNAME}/adsb-modesmixer2:${TAG:-latest}
+    ports:
+      - "0.0.0.0:8080:8080/tcp"
+    depends_on:
+      - dump1090
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 512M
