@@ -16,7 +16,7 @@ services:
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=latest
+    - DOCKER_COMPOSE_VERSION=1.23.2
 
 matrix:
   include:
