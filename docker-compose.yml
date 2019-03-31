@@ -226,7 +226,7 @@ services:
         - ${DOCKER_USERNAME}/adsb-modesmixer2
         - ${DOCKER_USERNAME}/adsb-modesmixer2:${TAG:-latest}
     ports:
-      - "0.0.0.0:8080:8080/tcp"
+      - "0.0.0.0:8081:8080/tcp"
     depends_on:
       - dump1090
     deploy:
