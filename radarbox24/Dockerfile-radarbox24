@@ -1,4 +1,4 @@
-FROM multiarch/debian-debootstrap:armhf-stretch-slim as base
+FROM debian:stretch-slim as base
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase dirmngr gnupg2 ca-certificates apt-transport-https && \
@@ -13,6 +13,7 @@ RUN apt-get update && \
 
 EXPOSE 32088
 
+COPY rbfeeder.ini /etc/rbfeeder.ini 
 ENTRYPOINT ["/usr/bin/rbfeeder"]
 
 # Metadata
