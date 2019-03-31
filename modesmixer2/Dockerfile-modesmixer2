@@ -1,8 +1,8 @@
-FROM multiarch/debian-debootstrap:armhf-stretch-slim as base
+FROM debian:stretch-slim as base
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates && \
-    curl -SL "https://drive.google.com/uc?export=download&id=1lV_tUMVIj_CvM3kxdkk8PX2pLLAJskw_" | tar -xzC /usr/local/bin modesmixer2 && \
+    curl -SL "https://drive.google.com/uc?export=download&id=18DjTxitzZj9RsVPxt7lmnptfL5eZqHxJ" | tar -xzC /usr/local/bin modesmixer2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
