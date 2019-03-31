@@ -26,6 +26,7 @@ services:
       - variables-dump1090.env
     cap_add:
       - SYS_NICE
+    restart: always
     deploy:
       mode: global
       placement:
@@ -56,6 +57,7 @@ services:
       - dump1090
     env_file:
       - variables-flightradar24.env
+    restart: always
     deploy:
       mode: global
       restart_policy:
@@ -80,6 +82,7 @@ services:
       - dump1090
     env_file:
       - variables-planefinder.env
+    restart: always
     deploy:
       mode: global
       restart_policy:
@@ -99,6 +102,7 @@ services:
       - dump1090
     env_file:
       - variables-adsbexchange.env
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -122,6 +126,7 @@ services:
       - dump1090
     env_file:
       - variables-adsbexchange-mlat.env
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -140,6 +145,7 @@ services:
       - dump1090
     env_file:
       - variables-adsbhub.env
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -160,6 +166,7 @@ services:
       - dump1090
     env_file:
       - variables-openskynetwork.env
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -182,6 +189,7 @@ services:
       - dump1090
     env_file:
       - variables-flightaware.env
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -207,6 +215,7 @@ services:
       - variables-virtualradar.env
     volumes:
       - virtualradar-config:/config
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -229,6 +238,7 @@ services:
       - "0.0.0.0:8081:8080/tcp"
     depends_on:
       - dump1090
+    restart: always
     deploy:
       restart_policy:
         condition: always
@@ -249,6 +259,7 @@ services:
         - ${DOCKER_USERNAME}/adsb-radarbox24:${TAG:-latest}
     depends_on:
       - dump1090
+    restart: always
     deploy:
       restart_policy:
         condition: always
