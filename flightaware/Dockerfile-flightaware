@@ -14,7 +14,7 @@ RUN dpkg -i /piaware-repository_${PIAWARE_VERSION}_all.deb && \
 COPY piaware.conf /etc/piaware.conf
 COPY piaware-runner.sh /usr/bin/piaware-runner
 
-EXPOSE 30105/tcp
+EXPOSE 30106/tcp
 
 ENTRYPOINT ["piaware-runner"]
 

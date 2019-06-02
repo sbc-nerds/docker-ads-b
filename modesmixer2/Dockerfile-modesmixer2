@@ -10,7 +10,7 @@ EXPOSE 8080
 
 HEALTHCHECK --start-period=1m --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/ || exit 1
 
-ENTRYPOINT ["/usr/local/bin/modesmixer2","--web","8080","--inConnect","dump1090:30002"]
+ENTRYPOINT ["/usr/local/bin/modesmixer2","--web","8080","--inConnectId","dump1090:30002:DUMP1090","--inConnectId","flightaware:30106:MLAT"]
 
 # Metadata
 ARG VCS_REF="Unknown"
