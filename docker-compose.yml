@@ -27,17 +27,6 @@ services:
     cap_add:
       - SYS_NICE
     restart: always
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - node.hostname == radio
-      restart_policy:
-        condition: always
-        delay: 5s
-      resources:
-        reservations:
-          cpus: '1.0'
 
   # flightradar24 #############################################################
   flightradar24:
@@ -58,11 +47,6 @@ services:
     env_file:
       - variables-flightradar24.env
     restart: always
-    deploy:
-      mode: global
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # planefinder ###############################################################
   planefinder:
@@ -83,11 +67,6 @@ services:
     env_file:
       - variables-planefinder.env
     restart: always
-    deploy:
-      mode: global
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # adsbexchange ##############################################################
   adsbexchange:
@@ -103,34 +82,26 @@ services:
     env_file:
       - variables-adsbexchange.env
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # adsbexchange-mlat #########################################################
-  adsbexchange-mlat:
-    image: ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
-    build:
-      context: adsbexchange-mlat
-      dockerfile: Dockerfile-adsbexchange-mlat
-      cache_from:
-        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat
-        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
-      args:
-        MLAT_CLIENT_VERSION: v0.2.10
-        MLAT_CLIENT_HASH: 8a570fd502bbba39b37175eff6dbab8372ed1a878266ff96fb33cd65f46eacef
-    ports:
-      - "30104:30104/tcp"
-    depends_on:
-      - dump1090
-    env_file:
-      - variables-adsbexchange-mlat.env
-    restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+  #  adsbexchange-mlat:
+  # image: ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
+  # build:
+  #   context: adsbexchange-mlat
+  #   dockerfile: Dockerfile-adsbexchange-mlat
+  #   cache_from:
+  #     - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat
+  #     - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
+  #   args:
+  #     MLAT_CLIENT_VERSION: v0.2.10
+  #     MLAT_CLIENT_HASH: 8a570fd502bbba39b37175eff6dbab8372ed1a878266ff96fb33cd65f46eacef
+  # ports:
+  #   - "30104:30104/tcp"
+  # depends_on:
+  #   - dump1090
+  # env_file:
+  #   - variables-adsbexchange-mlat.env
+  # restart: unless-stopped
 
   # adsbhub ###################################################################
   adsbhub:
@@ -146,10 +117,6 @@ services:
     env_file:
       - variables-adsbhub.env
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # openskynetwork ############################################################
   openskynetwork:
@@ -167,10 +134,6 @@ services:
     env_file:
       - variables-openskynetwork.env
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # flightaware ###############################################################
   flightaware:
@@ -190,10 +153,6 @@ services:
     env_file:
       - variables-flightaware.env
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
 
   # virtualradar ##############################################################
   virtualradar:
@@ -216,14 +175,6 @@ services:
     volumes:
       - virtualradar-config:/config
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 512M
 
   # modesmixer2 ##############################################################
   modesmixer2:
@@ -239,14 +190,6 @@ services:
     depends_on:
       - dump1090
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 512M
 
   # radarbox24 ##############################################################
   radarbox24:
@@ -260,11 +203,3 @@ services:
     depends_on:
       - dump1090
     restart: always
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
-      resources:
-        limits:
-          cpus: '0.75'
-          memory: 512M

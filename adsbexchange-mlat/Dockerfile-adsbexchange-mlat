@@ -21,13 +21,3 @@ COPY mlat-client-runner.sh /usr/bin/mlat-client-runner
 ENV SHIV_ROOT=/tmp
 EXPOSE 30104/tcp
 ENTRYPOINT ["mlat-client-runner"]
-
-# Metadata
-ARG VCS_REF="Unknown"
-LABEL maintainer="jb@nrgup.net" \
-      org.label-schema.name="Docker ADS-B - adsbexchange-mlat" \
-      org.label-schema.description="Docker container for ADS-B - This is the adsbexchange.com (MLAT) component" \
-      org.label-schema.url="https://github.com/bradsjm/docker-ads-b" \
-      org.label-schema.vcs-ref="${VCS_REF}" \
-      org.label-schema.vcs-url="https://github.com/bradsjm/docker-ads-b" \
-      org.label-schema.schema-version="1.0"
