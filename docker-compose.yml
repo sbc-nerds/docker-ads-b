@@ -14,8 +14,8 @@ services:
         - ${DOCKER_USERNAME}/adsb-dump1090
         - ${DOCKER_USERNAME}/adsb-dump1090:${TAG:-latest}
       args:
-        DUMP1090_VERSION: v3.7.1
-        DUMP1090_TAR_HASH: 466434bdffe3a75475575251c511fecf7e967b99ada8a7c1900d8502a7c77b5c
+        DUMP1090_VERSION: v3.8.0
+        DUMP1090_TAR_HASH: ad9d1eba1274cc0977a8068ecb00ad64cbc0785db7f50a487e4d2439a92095d7
     ports:
       - "30002:30002/tcp"
       - "30003:30003/tcp"
@@ -26,7 +26,7 @@ services:
       - variables-dump1090.env
     cap_add:
       - SYS_NICE
-    restart: always
+    restart: unless-stopped
 
   # flightradar24 #############################################################
   flightradar24:
@@ -38,15 +38,15 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightradar24
         - ${DOCKER_USERNAME}/adsb-flightradar24:${TAG:-latest}
       args:
-        FR24FEED_VERSION: 1.0.23-8
-        FR24FEED_HASH: adc72b6a5ffe0eb089748cd26a981eac7468b5a61ee0783c7e3bc3c0ee9c52b4
+        FR24FEED_VERSION: 1.0.25-1
+        FR24FEED_HASH: 88984c65ee16d3f52cd88ee7b32091d30aa7d7358e29ca5d4d710ff7690fe923
     ports:
       - "8754:8754/tcp"
     depends_on:
       - dump1090
     env_file:
       - variables-flightradar24.env
-    restart: always
+    restart: unless-stopped 
 
   # planefinder ###############################################################
   planefinder:
@@ -66,7 +66,7 @@ services:
       - dump1090
     env_file:
       - variables-planefinder.env
-    restart: always
+    restart: unless-stopped
 
   # adsbexchange ##############################################################
   adsbexchange:
@@ -81,7 +81,7 @@ services:
       - dump1090
     env_file:
       - variables-adsbexchange.env
-    restart: always
+    restart: unless-stopped
 
   # adsbexchange-mlat #########################################################
   #  adsbexchange-mlat:
@@ -116,7 +116,7 @@ services:
       - dump1090
     env_file:
       - variables-adsbhub.env
-    restart: always
+    restart: unless-stopped
 
   # openskynetwork ############################################################
   openskynetwork:
@@ -133,7 +133,7 @@ services:
       - dump1090
     env_file:
       - variables-openskynetwork.env
-    restart: always
+    restart: unless-stopped
 
   # flightaware ###############################################################
   flightaware:
@@ -145,14 +145,14 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightaware
         - ${DOCKER_USERNAME}/adsb-flightaware:${TAG:-latest}
       args:
-        PIAWARE_VERSION: 3.7.1
+        PIAWARE_VERSION: 3.8.0
     ports:
       - "30106:30106/tcp"
     depends_on:
       - dump1090
     env_file:
       - variables-flightaware.env
-    restart: always
+    restart: unless-stopped
 
   # virtualradar ##############################################################
   virtualradar:
@@ -174,7 +174,7 @@ services:
       - variables-virtualradar.env
     volumes:
       - virtualradar-config:/config
-    restart: always
+    restart: unless-stopped
 
   # modesmixer2 ##############################################################
   modesmixer2:
@@ -189,7 +189,7 @@ services:
       - "0.0.0.0:8081:8080/tcp"
     depends_on:
       - dump1090
-    restart: always
+    restart: unless-stopped
 
   # radarbox24 ##############################################################
   radarbox24:
@@ -202,4 +202,4 @@ services:
         - ${DOCKER_USERNAME}/adsb-radarbox24:${TAG:-latest}
     depends_on:
       - dump1090
-    restart: always
+    restart: unless-stopped
