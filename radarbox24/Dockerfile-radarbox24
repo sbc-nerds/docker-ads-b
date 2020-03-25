@@ -1,4 +1,4 @@
-FROM debian:stretch-slim as base
+FROM debian:buster-slim as base
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase dirmngr gnupg2 ca-certificates apt-transport-https && \

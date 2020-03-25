@@ -1,4 +1,4 @@
-FROM multiarch/debian-debootstrap:armhf-buster-slim as base
+FROM debian:buster-slim as base
 
 ARG PIAWARE_VERSION
 

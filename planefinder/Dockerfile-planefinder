@@ -1,4 +1,4 @@
-FROM multiarch/debian-debootstrap:armhf-stretch-slim
+FROM debian:buster-slim
 
 ARG PFCLIENT_VERSION
 ARG PFCLIENT_HASH
