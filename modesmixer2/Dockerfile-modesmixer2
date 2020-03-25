@@ -1,8 +1,8 @@
-FROM debian:stretch-slim as base
+FROM debian:buster-slim as base
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates && \
-    curl -SL "https://drive.google.com/uc?export=download&id=18DjTxitzZj9RsVPxt7lmnptfL5eZqHxJ" | tar -xzC /usr/local/bin modesmixer2 && \
+    curl -SL "https://drive.google.com/uc?export=download&id=1YvXOE7tlhtMocmQQBZ7VtW8AN_3oPleF" | tar -xzC /usr/local/bin modesmixer2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
