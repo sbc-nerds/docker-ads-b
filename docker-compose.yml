@@ -145,7 +145,7 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightaware
         - ${DOCKER_USERNAME}/adsb-flightaware:${TAG:-latest}
       args:
-        PIAWARE_VERSION: 3.8.0
+        PIAWARE_VERSION: 3.8.1
     ports:
       - "30106:30106/tcp"
     depends_on:
