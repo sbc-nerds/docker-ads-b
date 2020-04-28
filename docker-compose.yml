@@ -84,24 +84,24 @@ services:
     restart: unless-stopped
 
   # adsbexchange-mlat #########################################################
-  #  adsbexchange-mlat:
-  # image: ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
-  # build:
-  #   context: adsbexchange-mlat
-  #   dockerfile: Dockerfile-adsbexchange-mlat
-  #   cache_from:
-  #     - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat
-  #     - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
-  #   args:
-  #     MLAT_CLIENT_VERSION: v0.2.10
-  #     MLAT_CLIENT_HASH: 8a570fd502bbba39b37175eff6dbab8372ed1a878266ff96fb33cd65f46eacef
-  # ports:
-  #   - "30104:30104/tcp"
-  # depends_on:
-  #   - dump1090
-  # env_file:
-  #   - variables-adsbexchange-mlat.env
-  # restart: unless-stopped
+  adsbexchange-mlat:
+    image: ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
+    build:
+      context: adsbexchange-mlat
+      dockerfile: Dockerfile-adsbexchange-mlat
+      cache_from:
+        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat
+        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
+      args:
+        MLAT_CLIENT_VERSION: v0.2.11
+        MLAT_CLIENT_HASH: 924f4c97f2664c2a9bbf96e0de514ae4aaa0b1caed81e66b0639e354fdc19c01
+    ports:
+      - "30104:30104/tcp"
+    depends_on:
+      - dump1090
+    env_file:
+      - variables-adsbexchange-mlat.env
+    restart: unless-stopped
 
   # adsbhub ###################################################################
   adsbhub:
