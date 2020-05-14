@@ -13,17 +13,13 @@ services:
       cache_from:
         - ${DOCKER_USERNAME}/adsb-dump1090
         - ${DOCKER_USERNAME}/adsb-dump1090:${TAG:-latest}
-      args:
-        DUMP1090_VERSION: v3.8.0
-        DUMP1090_TAR_HASH: ad9d1eba1274cc0977a8068ecb00ad64cbc0785db7f50a487e4d2439a92095d7
     ports:
       - "30002:30002/tcp"
       - "30003:30003/tcp"
       - "30005:30005/tcp"
+      - "30105:30105/tcp"
     devices:
       - "/dev/bus/usb"
-    env_file:
-      - variables-dump1090.env
     cap_add:
       - SYS_NICE
     restart: unless-stopped

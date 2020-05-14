@@ -3,9 +3,7 @@ FROM alpine:latest as base
 
 RUN cat /etc/apk/repositories && \
     echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
-    echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-    cat /etc/apk/repositories && \
-    apk add --no-cache tini librtlsdr@testing libusb ncurses-libs
+    apk add --no-cache tini librtlsdr@edge libusb ncurses-libs
 
 
 # Builder Image ###############################################################
@@ -15,11 +13,11 @@ RUN apk add --no-cache \
         curl ca-certificates \
         coreutils make gcc pkgconf \
         ncurses-dev \
-        libc-dev librtlsdr-dev@testing libusb-dev
+        libc-dev librtlsdr-dev@edge libusb-dev
 
 
-ARG DUMP1090_VERSION
-ARG DUMP1090_TAR_HASH
+ARG DUMP1090_VERSION=v3.8.1
+ARG DUMP1090_TAR_HASH=9f43fdc7761f19cf9c6439eeb8c8ab04d811d29d97e36b80671fcf8547be7e43
 
 
 RUN curl -L --output 'dump1090-fa.tar.gz' "https://github.com/flightaware/dump1090/archive/${DUMP1090_VERSION}.tar.gz" && \
@@ -43,6 +41,6 @@ EXPOSE 30003/tcp
 # Beast output
 EXPOSE 30005/tcp
 
-ENTRYPOINT ["tini", "--", "nice", "-n", "-5", "dump1090", "--net", "--net-bind-address", "0.0.0.0", "--debug", "n", "--mlat", "--net-heartbeat", "5", "--quiet", "--stats-every", "60"]
 EXPOSE 30105/tcp
 
+ENTRYPOINT ["tini", "--", "nice", "-n", "-5", "dump1090", "--net", "--net-bind-address", "0.0.0.0", "--debug", "n", "--mlat", "--net-heartbeat", "5", "--quiet", "--stats-every", "60", "--lat", "${DUMP1090_LAT}", "--lon", "${DUMP1090_LON}" ]
