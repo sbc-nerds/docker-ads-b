@@ -1,7 +1,12 @@
 FROM debian:buster-slim as base
 
+ENV DUMP1090_SERVER=dump1090
+ENV DUMP1090_PORT=30005
+ENV DUMP1090_PROTOCOL=beast
+ENV RADARBOX24_KEY=
+
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase dirmngr gnupg2 ca-certificates apt-transport-https && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase dirmngr gnupg2 ca-certificates apt-transport-https dumb-init && \
     mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf && \
     apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 1D043681 && \
     echo 'deb https://apt.rb24.com/ rpi-stable main' > /etc/apt/sources.list.d/rb24.list && \
@@ -13,5 +18,8 @@ RUN apt-get update && \
 
 EXPOSE 32088
 
-COPY rbfeeder.ini /etc/rbfeeder.ini 
-ENTRYPOINT ["/usr/bin/rbfeeder"]
+COPY rbfeeder.ini /etc/rbfeeder.ini
+COPY radarbox24-client.sh /usr/local/bin/radarbox24-client
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["radarbox24-client"]

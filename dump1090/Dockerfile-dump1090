@@ -43,4 +43,4 @@ EXPOSE 30005/tcp
 
 EXPOSE 30105/tcp
 
-ENTRYPOINT ["tini", "--", "nice", "-n", "-5", "dump1090", "--net", "--net-bind-address", "0.0.0.0", "--debug", "n", "--mlat", "--net-heartbeat", "5", "--quiet", "--stats-every", "60", "--lat", "${DUMP1090_LAT}", "--lon", "${DUMP1090_LON}" ]
+ENTRYPOINT ["tini", "--", "nice", "-n", "-5", "dump1090", "--net", "--net-bind-address", "0.0.0.0", "--debug", "n", "--mlat", "--net-heartbeat", "5", "--quiet", "--stats-every", "60", "--lat", "${LATITUDE}", "--lon", "${LONGITUDE}" ]

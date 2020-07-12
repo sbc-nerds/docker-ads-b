@@ -27,8 +27,8 @@ start_secion_spacer "Running with"
 echo " - DUMP1090_SERVER=${DUMP1090_SERVER}"
 echo " - DUMP1090_PORT=${DUMP1090_PORT}"
 echo " - PLANEFINDER_SHARECODE=${PLANEFINDER_SHARECODE}"
-echo " - PLANEFINDER_LATITUDE =${PLANEFINDER_LATITUDE}"
-echo " - PLANEFINDER_LONGITUDE=${PLANEFINDER_LONGITUDE}"
+echo " - PLANEFINDER_LATITUDE =${LATITUDE}"
+echo " - PLANEFINDER_LONGITUDE=${LONGITUDE}"
 end_secion_spacer
 
 start_secion_spacer "Waiting for ${DUMP1090_SERVER} to start up"
@@ -47,8 +47,8 @@ start_secion_spacer 'customising config'
 sed -i "s/DUMP1090_SERVER/${DUMP1090_SERVER}/" /etc/pfclient-config.json
 sed -i "s/DUMP1090_PORT/${DUMP1090_PORT}/" /etc/pfclient-config.json
 sed -i "s/PLANEFINDER_SHARECODE/${PLANEFINDER_SHARECODE}/" /etc/pfclient-config.json
-sed -i "s/PLANEFINDER_LATITUDE/${PLANEFINDER_LATITUDE}/" /etc/pfclient-config.json
-sed -i "s/PLANEFINDER_LONGITUDE/${PLANEFINDER_LONGITUDE}/" /etc/pfclient-config.json
+sed -i "s/PLANEFINDER_LATITUDE/${LATITUDE}/" /etc/pfclient-config.json
+sed -i "s/PLANEFINDER_LONGITUDE/${LONGITUDE}/" /etc/pfclient-config.json
 end_secion_spacer
 
 start_secion_spacer "pfclient-config.json customised"

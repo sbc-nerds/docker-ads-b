@@ -40,8 +40,8 @@ services:
       - "8754:8754/tcp"
     depends_on:
       - dump1090
-    env_file:
-      - variables-flightradar24.env
+    environment:
+      - FR24FEED_KEY=${FR24FEED_KEY}
     restart: unless-stopped 
 
   # planefinder ###############################################################
@@ -60,8 +60,10 @@ services:
       - "30053:30053/tcp"
     depends_on:
       - dump1090
-    env_file:
-      - variables-planefinder.env
+    environment:
+      - LATITUDE=${LATITUDE}
+      - LONGITUDE=${LONGITUDE}
+      - PLANEFINDER_SHARECODE=${PLANEFINDER_SHARECODE}
     restart: unless-stopped
 
   # adsbexchange ##############################################################
@@ -75,8 +77,6 @@ services:
         - ${DOCKER_USERNAME}/adsb-adsbexchange:${TAG:-latest}
     depends_on:
       - dump1090
-    env_file:
-      - variables-adsbexchange.env
     restart: unless-stopped
 
   # adsbexchange-mlat #########################################################
@@ -91,12 +91,15 @@ services:
       args:
         MLAT_CLIENT_VERSION: v0.2.11
         MLAT_CLIENT_HASH: 924f4c97f2664c2a9bbf96e0de514ae4aaa0b1caed81e66b0639e354fdc19c01
+    environment:
+        - ALTITUDE=$ALTITUDE
+        - LATITUDE=$LATITUDE
+        - LONGITUDE=$LONGITUDE
+        - MLAT_CLIENT_USER=$ADSBEXCHANGE_MLAT_CLIENT_USER 
     ports:
       - "30104:30104/tcp"
     depends_on:
       - dump1090
-    env_file:
-      - variables-adsbexchange-mlat.env
     restart: unless-stopped
 
   # adsbhub ###################################################################
@@ -110,8 +113,6 @@ services:
         - ${DOCKER_USERNAME}/adsb-adsbhub:${TAG:-latest}
     depends_on:
       - dump1090
-    env_file:
-      - variables-adsbhub.env
     restart: unless-stopped
 
   # openskynetwork ############################################################
@@ -127,8 +128,6 @@ services:
       - "30975:30005/tcp"
     depends_on:
       - dump1090
-    env_file:
-      - variables-openskynetwork.env
     restart: unless-stopped
 
   # flightaware ###############################################################
@@ -142,12 +141,15 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightaware:${TAG:-latest}
       args:
         PIAWARE_VERSION: 3.8.1
+    environment:
+      - FLIGHTAWARE_USERNAME=${FLIGHTAWARE_USERNAME}
+      - FLIGHTAWARE_PASSWORD=${FLIGHTAWARE_PASSWORD}
+      - FLIGHTAWARE_FEEDER_ID=${FLIGHTAWARE_FEEDER_ID}
+      - FLIGHTAWARE_GPS_HOST=${FLIGHTAWARE_GPS_HOST}
     ports:
       - "30106:30106/tcp"
     depends_on:
       - dump1090
-    env_file:
-      - variables-flightaware.env
     restart: unless-stopped
 
   # virtualradar ##############################################################
@@ -181,6 +183,10 @@ services:
       cache_from:
         - ${DOCKER_USERNAME}/adsb-modesmixer2
         - ${DOCKER_USERNAME}/adsb-modesmixer2:${TAG:-latest}
+    environment:
+      - LATITUDE=${LATITUDE}
+      - LONGITUDE=${LONGITUDE}
+      - GOOGLE_KEY=${GOOGLE_KEY}
     ports:
       - "0.0.0.0:8081:8080/tcp"
     depends_on:
@@ -196,6 +202,32 @@ services:
       cache_from:
         - ${DOCKER_USERNAME}/adsb-radarbox24
         - ${DOCKER_USERNAME}/adsb-radarbox24:${TAG:-latest}
+    environment:
+      - RADARBOX24_KEY=${RADARBOX24_KEY}
+    depends_on:
+      - dump1090
+    restart: unless-stopped
+  # radarbox24-mlat #########################################################
+  radarbox24-mlat:
+    image: ${DOCKER_USERNAME}/adsb-radarbox24-mlat:${TAG:-latest}
+    build:
+      context: radarbox24-mlat
+      dockerfile: Dockerfile-radarbox24-mlat
+      cache_from:
+        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat
+        - ${DOCKER_USERNAME}/adsb-adsbexchange-mlat:${TAG:-latest}
+      args:
+        MLAT_CLIENT_VERSION: v0.2.11
+        MLAT_CLIENT_HASH: 924f4c97f2664c2a9bbf96e0de514ae4aaa0b1caed81e66b0639e354fdc19c01
+    environment:
+        - MLAT_SERVER=mlat1.rb24.com
+        - MLAT_SERVER_PORT=40900
+        - ALTITUDE=$ALTITUDE
+        - LATITUDE=$LATITUDE
+        - LONGITUDE=$LONGITUDE
+        - MLAT_CLIENT_USER=${RADARBOX24_MLAT_CLIENT_USER}
+    ports:
+      - "30114:30104/tcp"
     depends_on:
       - dump1090
     restart: unless-stopped

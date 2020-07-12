@@ -1,7 +1,7 @@
 FROM debian:buster-slim as base
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates sqlite3 dumb-init && \
     curl -SL "https://drive.google.com/uc?export=download&id=1YvXOE7tlhtMocmQQBZ7VtW8AN_3oPleF" | tar -xzC /usr/local/bin modesmixer2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -10,4 +10,8 @@ EXPOSE 8080
 
 HEALTHCHECK --start-period=1m --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/ || exit 1
 
-ENTRYPOINT ["/usr/local/bin/modesmixer2","--web","8080","--inConnectId","dump1090:30002:DUMP1090","--inConnectId","flightaware:30106:MLAT"]
+COPY modesmixer2-runner.sh /usr/local/bin/modesmixer2-runner
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["modesmixer2-runner"]
+

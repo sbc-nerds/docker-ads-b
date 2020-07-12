@@ -6,8 +6,10 @@ set -o nounset          # Disallow expansion of unset variables
 #set -o pipefail         # Use last non-zero exit code in a pipeline
 set -o xtrace          # Trace the execution of the script (debug)
 
-DUMP1090_SERVER='dump1090'
-DUMP1090_PORT='30005'
+DUMP1090_SERVER=${DUMP1090_SERVER:=dump1090}
+DUMP1090_PORT=${DUMP1090_PORT:=30005}
+ADSBEXCHANGE_PORT=${ADSBEXCHANGE_PORT:=30005}
+ADSBEXCHANGE_SERVER=${ADSBEXCHANGE_SERVER:=feed.adsbexchange.com}
 
 echo "Waiting for dump1090 to start up"
 sleep 5s
@@ -18,10 +20,10 @@ ping -c 3 "${DUMP1090_SERVER}"
 echo "Read ADSBEXCHANGE_PORT=${ADSBEXCHANGE_PORT}"
 
 while true; do
-  echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:feed.adsbexchange.com:${ADSBEXCHANGE_PORT}"
+  echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:${ADSBEXCHANGE_SERVER}:${ADSBEXCHANGE_PORT}"
   
   set +o errexit
-  socat -u "TCP:${DUMP1090_SERVER}:${DUMP1090_PORT}" "TCP:feed.adsbexchange.com:${ADSBEXCHANGE_PORT}"
+  socat -u "TCP:${DUMP1090_SERVER}:${DUMP1090_PORT}" "TCP:${ADSBEXCHANGE_SERVER}:${ADSBEXCHANGE_PORT}"
   SOCAT_STATUS=${?}
   set -o errexit
   
