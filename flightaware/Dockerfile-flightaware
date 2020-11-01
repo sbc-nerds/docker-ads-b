@@ -1,15 +1,39 @@
-FROM debian:buster-slim as base
+FROM debian:buster-slim as build
 
 ARG PIAWARE_VERSION
 
-ADD http://flightaware.com/adsb/piaware/files/packages/pool/piaware/p/piaware-support/piaware-repository_${PIAWARE_VERSION}_all.deb /
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    wget git curl ca-certificates devscripts build-essential debhelper tcl8.6-dev autoconf python3-dev python3-venv dh-systemd libz-dev \
+    libboost-system-dev libboost-program-options-dev libboost-regex-dev libboost-filesystem-dev libssl-dev tcl-dev chrpath
+
+#tcl-tls
+RUN git clone http://github.com/flightaware/tcltls-rebuild.git /tcltls-rebuild
+WORKDIR /tcltls-rebuild
+RUN ./prepare-build.sh buster
+WORKDIR /tcltls-rebuild/package-buster
+RUN dpkg-buildpackage -b
+
+#piaware
+RUN git clone https://github.com/flightaware/piaware_builder.git /piaware_builder
+WORKDIR /piaware_builder
+RUN git fetch --all --tags && git checkout tags/v${PIAWARE_VERSION}
+RUN ./sensible-build.sh buster
+WORKDIR /piaware_builder/package-buster
+RUN dpkg-buildpackage -b
+
+
+FROM debian:buster-slim as base
+
+COPY --from=build /tcltls-rebuild/tcl-tls_*.deb /
+COPY --from=build /piaware_builder/piaware_*.deb /
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
-RUN dpkg -i /piaware-repository_${PIAWARE_VERSION}_all.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends piaware && \
-    DEBIAN_FRONTEND=noninteractive apt-get clean && \
-    rm -rf /piaware-repository_${PIAWARE_VERSION}_all.deb /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    apt-get install -f -y /tcl-tls_*.deb && \
+    apt-get install -f -y /piaware_*.deb && \
+    apt-get clean && \
+    rm -rf /tcl-tls_*.deb /piaware_*.deb /var/lib/apt/lists/*
 
 COPY piaware.conf /etc/piaware.conf
 COPY piaware-runner.sh /usr/bin/piaware-runner
