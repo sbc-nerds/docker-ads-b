@@ -16,8 +16,8 @@ RUN apk add --no-cache \
         libc-dev librtlsdr-dev@edge libusb-dev
 
 
-ARG DUMP1090_VERSION=v3.8.1
-ARG DUMP1090_TAR_HASH=9f43fdc7761f19cf9c6439eeb8c8ab04d811d29d97e36b80671fcf8547be7e43
+ARG DUMP1090_VERSION=v4.0
+ARG DUMP1090_TAR_HASH=49ace5a06da3d51384de83a4199d043c6093ad475909c58317cedece0e9590d1
 
 
 RUN curl -L --output 'dump1090-fa.tar.gz' "https://github.com/flightaware/dump1090/archive/${DUMP1090_VERSION}.tar.gz" && \

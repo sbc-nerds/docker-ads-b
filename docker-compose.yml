@@ -34,8 +34,8 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightradar24
         - ${DOCKER_USERNAME}/adsb-flightradar24:${TAG:-latest}
       args:
-        FR24FEED_VERSION: 1.0.25-1
-        FR24FEED_HASH: 88984c65ee16d3f52cd88ee7b32091d30aa7d7358e29ca5d4d710ff7690fe923
+        FR24FEED_VERSION: 1.0.25-3
+        FR24FEED_HASH: 16ca9d5139eb1bc2dcabcd73611cde049b96392a411f3f4ead3157e676b4bc93
     ports:
       - "8754:8754/tcp"
     depends_on:
@@ -140,7 +140,7 @@ services:
         - ${DOCKER_USERNAME}/adsb-flightaware
         - ${DOCKER_USERNAME}/adsb-flightaware:${TAG:-latest}
       args:
-        PIAWARE_VERSION: 3.8.1
+        PIAWARE_VERSION: 4.0
     environment:
       - FLIGHTAWARE_USERNAME=${FLIGHTAWARE_USERNAME}
       - FLIGHTAWARE_PASSWORD=${FLIGHTAWARE_PASSWORD}
