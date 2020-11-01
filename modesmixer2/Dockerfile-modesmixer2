@@ -1,8 +1,10 @@
 FROM debian:buster-slim as base
 
+ARG MODESMIXER2_URL
+
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends netbase curl openssl ca-certificates sqlite3 dumb-init && \
-    curl -SL "https://drive.google.com/uc?export=download&id=1YvXOE7tlhtMocmQQBZ7VtW8AN_3oPleF" | tar -xzC /usr/local/bin modesmixer2 && \
+    curl -SL ${MODESMIXER2_URL} | tar -xzC /usr/local/bin modesmixer2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

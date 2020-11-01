@@ -183,6 +183,10 @@ services:
       cache_from:
         - ${DOCKER_USERNAME}/adsb-modesmixer2
         - ${DOCKER_USERNAME}/adsb-modesmixer2:${TAG:-latest}
+      args:
+        MODESMIXER2_URL: https://drive.google.com/uc?export=download&id=1YvXOE7tlhtMocmQQBZ7VtW8AN_3oPleF # modesmixer2_rpi2-3_deb9_20190413.tgz
+        # MODESMIXER2_URL: https://drive.google.com/uc?export=download&id=1YY7wQNtqrPk7qtE3OB9DGkc4nDalJsCS # modesmixer2_rpi4_deb10_20190413.tgz
+        # MODESMIXER2_URL: https://drive.google.com/uc?export=download&id=1EB_VunTA3UINzsJUduKTnssVwk-1XyFr # modesmixer2_64bit_rpi4_Raspberry_Pi_OS_20200426.tgz
     environment:
       - LATITUDE=${LATITUDE}
       - LONGITUDE=${LONGITUDE}
