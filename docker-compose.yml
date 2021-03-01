@@ -54,8 +54,8 @@ services:
         - ${DOCKER_USERNAME}/adsb-planefinder
         - ${DOCKER_USERNAME}/adsb-planefinder:${TAG:-latest}
       args:
-        PFCLIENT_VERSION: 4.1.1
-        PFCLIENT_HASH: c2411ca2c9ce1a6a00c1c8af0ce3f7f9
+        PFCLIENT_VERSION: 5.0.161
+        PFCLIENT_HASH: 0f1e6b90f292833060020d039b8d2fb1
     ports:
       - "30053:30053/tcp"
     depends_on:
